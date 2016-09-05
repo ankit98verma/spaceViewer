@@ -1,0 +1,48 @@
+# depslib dependency file v1.0
+1472845354 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\main.cpp
+	<GL/glut.h>
+	<stdlib.h>
+	"iostream"
+	"theFrame.h"
+
+1367841796 e:\glue and glut\freeglut\include\gl\glut.h
+	"freeglut_std.h"
+
+1367841878 e:\glue and glut\freeglut\include\gl\freeglut_std.h
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1473090266 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\theframe.cpp
+	"theFrame.h"
+	<GL/glut.h>
+	<iostream>
+	"theTriangle.h"
+	<math.h>
+
+1473021346 c:\users\ankit\documents\codeblocks projects\spaceviewer\include\theframe.h
+	"snowMan.h"
+	"camera.h"
+
+1472907804 c:\users\ankit\documents\codeblocks projects\spaceviewer\include\thetriangle.h
+	<GL/glut.h>
+
+1473012789 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\thetriangle.cpp
+	"theTriangle.h"
+
+1473013084 c:\users\ankit\documents\codeblocks projects\spaceviewer\include\snowman.h
+
+1473014934 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\snowman.cpp
+	"snowMan.h"
+	<GL/glut.h>
+
+1473090820 c:\users\ankit\documents\codeblocks projects\spaceviewer\include\camera.h
+
+1473091105 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\camera.cpp
+	"camera.h"
+	<iostream>
+	<math.h>
+

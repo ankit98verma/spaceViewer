@@ -1,0 +1,154 @@
+#include "theFrame.h"
+#include <GL/glut.h>
+#include <iostream>
+#include "theTriangle.h"
+#include <math.h>
+
+using namespace std;
+
+snowMan theFrame:: s;
+
+camera theFrame:: cam(0,4,7,5,45,90);
+
+float xB=0.1,yB=0.1;
+
+theFrame::theFrame(int* argc, char* argv[], char* title){
+
+    glutInit(argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutInitWindowPosition(100, 50);
+    glutInitWindowSize(700, 600);
+    glutCreateWindow(title);
+
+    glutDisplayFunc(theFrame::render);
+    glutReshapeFunc(changeSize);
+    glutKeyboardFunc(keyboardFunc);
+    glutSpecialFunc(specialKeyboardFunc);
+    glutIdleFunc(idleFunc);
+
+    glEnable(GL_DEPTH_TEST);
+
+    glutMainLoop();
+}
+
+void theFrame::render(void){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+
+    gluLookAt(cam.getCamX(), cam.getCamY(),cam.getCamZ(),
+            cam.getObjX(), cam.getObjY(),  cam.getObjZ(),
+			0.0f, 0.0f,  1.0f);
+
+
+	glBegin(GL_LINES);
+        glColor3f(1.0f, 0 ,0 );
+
+        glVertex3f(0.0, 0,0);
+        glVertex3f(10.0, 0.0,0);
+
+        glColor3f(0.0f, 1.0f ,0 );
+
+        glVertex3f(0.0, 0.0,0);
+        glVertex3f(0.0, 10.0,0);
+
+        glColor3f(0.0f, 0 ,1.0f );
+
+        glVertex3f(0.0, 0.0,0.0f);
+        glVertex3f(0.0, 0.0,10.0f);
+	glEnd();
+
+	for(int i = -3; i < 3; i++)
+		for(int j=-3; j < 3; j++) {
+			glPushMatrix();
+			glColor3f(0.01*i, 0.2*i, 0.2);
+			glTranslatef(i*5.0+xB,yB+j * 5.0,0);
+			s.draw();
+			glPopMatrix();
+		}
+
+	glutSwapBuffers();
+}
+
+void theFrame::keyboardFunc(unsigned char c, int i, int j){
+    cout << i<<"\n" <<j <<endl;
+    if( c == 27)
+        exit(0);
+    if( c == 'w'){
+        cam.moveCamR(cam.getR()-.1);
+    }
+    if( c == 's'){
+        cam.moveCamR(cam.getR()+.1);
+    }
+
+}
+void theFrame::specialKeyboardFunc(int key, int x, int y){
+    float fraction = 0.1f;
+    int mod = glutGetModifiers();
+	switch (key) {
+		case GLUT_KEY_LEFT :
+		    if(mod != GLUT_ACTIVE_CTRL){
+                cam.moveObjPhi(cam.getPhi()+1);
+		    }else{
+		        cam.moveCamPhi(cam.getPhi()+1);
+		    }
+			break;
+		case GLUT_KEY_RIGHT :
+			if(mod != GLUT_ACTIVE_CTRL){
+                cam.moveObjPhi(cam.getPhi()-1);
+		    }else{
+                cam.moveCamPhi(cam.getPhi()-1);
+		    }
+			break;
+		case GLUT_KEY_UP :
+		    if(mod != GLUT_ACTIVE_CTRL){
+                cam.moveObjTheta(cam.getTheta()-1);
+		    }else{
+                cam.moveCamTheta(cam.getTheta()-1);
+		    }
+			break;
+		case GLUT_KEY_DOWN :
+		    if(mod != GLUT_ACTIVE_CTRL){
+                cam.moveObjTheta(cam.getTheta()+1);
+		    }else{
+                cam.moveCamTheta(cam.getTheta()+1);
+		    }
+			break;
+	}
+}
+
+
+void theFrame::changeSize(int w, int h) {
+
+	// Prevent a divide by zero, when window is too short
+	// (you cant make a window of zero width).
+	if (h == 0)
+		h = 1;
+	float ratio =  w * 1.0 / h;
+
+        // Use the Projection Matrix
+	glMatrixMode(GL_PROJECTION);
+
+        // Reset Matrix
+	glLoadIdentity();
+
+	// Set the viewport to be the entire window
+	glViewport(0, 0, w, h);
+
+	// Set the correct perspective.
+	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
+
+	// Get Back to the Modelview
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void theFrame::idleFunc(){
+    update();
+    glutPostRedisplay();
+}
+void theFrame::update(){        //update everything for animation
+    xB+=0.001;yB+=0.0001;
+}
+
+theFrame::~theFrame(){
+    //dtor
+}
