@@ -12,6 +12,8 @@ camera theFrame:: cam(0,4,7,5,45,90);
 
 float xB=0.1,yB=0.1;
 
+int mouseX, mouseY;
+
 theFrame::theFrame(int* argc, char* argv[], char* title){
 
     glutInit(argc, argv);
@@ -24,6 +26,8 @@ theFrame::theFrame(int* argc, char* argv[], char* title){
     glutReshapeFunc(changeSize);
     glutKeyboardFunc(keyboardFunc);
     glutSpecialFunc(specialKeyboardFunc);
+    glutMouseFunc(mouseClickFunc);
+    glutMotionFunc(mouseMotionFunc);
     glutIdleFunc(idleFunc);
 
     glEnable(GL_DEPTH_TEST);
@@ -79,10 +83,9 @@ void theFrame::keyboardFunc(unsigned char c, int i, int j){
     if( c == 's'){
         cam.moveCamR(cam.getR()+.1);
     }
-
 }
 void theFrame::specialKeyboardFunc(int key, int x, int y){
-    float fraction = 0.1f;
+    //float fraction = 0.1f;
     int mod = glutGetModifiers();
 	switch (key) {
 		case GLUT_KEY_LEFT :
@@ -114,6 +117,21 @@ void theFrame::specialKeyboardFunc(int key, int x, int y){
 		    }
 			break;
 	}
+}
+void theFrame::mouseClickFunc(int button, int state, int x, int y){
+    if(button == GLUT_LEFT_BUTTON){
+        mouseX =x;mouseY = y;
+        cout <<"CLICK Mx: "<<mouseX<<" My:"<<mouseY<<endl;
+    }
+}
+void theFrame::mouseMotionFunc(int x, int y){
+    float factor = 0.1;
+    int delX = x - mouseX, delY = y - mouseY;   //delY changes theta and delX changes phi
+    mouseX = x;mouseY = y;
+    cout <<"DRAGED Mx: "<<mouseX<<" My:"<<mouseY<<endl;
+    cam.moveCamPhi(cam.getPhi()-(float)factor*delX);
+    cam.moveCamTheta(cam.getTheta()-(float)factor*delY);
+
 }
 
 

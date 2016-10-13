@@ -16,14 +16,14 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1473090266 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\theframe.cpp
+1476379151 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\theframe.cpp
 	"theFrame.h"
 	<GL/glut.h>
 	<iostream>
 	"theTriangle.h"
 	<math.h>
 
-1473021346 c:\users\ankit\documents\codeblocks projects\spaceviewer\include\theframe.h
+1476378442 c:\users\ankit\documents\codeblocks projects\spaceviewer\include\theframe.h
 	"snowMan.h"
 	"camera.h"
 
