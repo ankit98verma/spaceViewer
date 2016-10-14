@@ -19,7 +19,7 @@ camera::camera(float oxx,float oyy,float ozz, float rr, float p, float t){
 }
 
 void camera::moveCamR(float rr){
-    moveCamForward(rr-r);display();
+    moveCamForward(rr-r);//display();
 }
 void camera::moveCamPhi(float p){
     phi=p;calcCameraPos();
@@ -51,7 +51,7 @@ void  camera::calcComponents(){
     x = r*cos(phi*0.0174532925f)*sin(theta*0.0174532925f);
     y = r*sin(phi*0.0174532925f)*sin(theta*0.0174532925f);
     z = r*cos(theta*0.0174532925f);
-    display();
+    //display();
 }
 void camera::calcCameraPos(){
     calcComponents();

@@ -4,17 +4,17 @@
 #include "theTriangle.h"
 #include <math.h>
 #include <electricField.h>
-#include "stdlib.h"
+#include "string"
 
 using namespace std;
 
 snowMan theFrame:: s;
 
-camera theFrame:: cam(0,0,0,5,-76.5,70.5);
+camera theFrame:: cam(0,0,0,5.5,-124.9,70.6);
 
 float xB=0.1,yB=0.1;
 
-bool paused = true;
+bool paused = false;
 
 int mouseX, mouseY, ctrKey;
 float incT = 0.016, totT =0.0;
@@ -26,8 +26,8 @@ theFrame::theFrame(int* argc, char* argv[], char* title){
 
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    glutInitWindowPosition(100, 50);
-    glutInitWindowSize(700, 600);
+    glutInitWindowPosition(100, 0);
+    glutInitWindowSize(1000, 700);
     glutCreateWindow(title);
 
     glutDisplayFunc(theFrame::render);
@@ -52,22 +52,22 @@ void theFrame::render(void){
 
 
 	glBegin(GL_LINES);
-        /*glColor3f(1.0f, 0 ,0 ); //x axis
+        glColor3f(1.0f, 0 ,0 ); //x axis
 
-        glVertex3f(0.0, 0,0);
+        glVertex3f(2.1f, 0, 0);
         glVertex3f(10.0, 0.0,0);
-        */
+
 
         glColor3f(0.0f, 1.0f ,0 );  // y axis
 
         glVertex3f(0.0, 0.0,0);
         glVertex3f(0.0, 10.0,0);
 
-        /*glColor3f(0.0f, 0 ,1.0f );  // z axis
+        glColor3f(0.0f, 0 ,1.0f );  // z axis
 
-        glVertex3f(0.0, 0.0,0.0f);
+        glVertex3f(0.0, 0.0,2.1f);
         glVertex3f(0.0, 0.0,10.0f);
-        */
+
 	glEnd();
 
 	/*for(int i = -3; i < 3; i++)
@@ -94,17 +94,40 @@ void theFrame::render(void){
         glVertex3f(0,0,0);
         glVertex3f(Ex.getValueAt(totT, 0),0,0);
     glEnd();
+
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glRasterPos3f(1,0, 0);
+    for (char* txt="Ex = 2cos(pi*t/2 - 1*y + pi/2)"; *txt != '\0'; txt++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *txt);
+    }
+
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glRasterPos3f(0,0, 1);
+    for (char* txt="Ez = 2cos(pi*t/2 - 1*y )"; *txt != '\0'; txt++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *txt);
+    }
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glRasterPos3f(1,1, 1);
+    for (char* txt="Axis: x->Red; y->Green; z->Blue"; *txt != '\0'; txt++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *txt);
+    }
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glRasterPos3f(1,1, 0.001f);
+    for (char* txt="LHCP wave with Ex leading by pi/2"; *txt != '\0'; txt++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *txt);
+    }
 	glutSwapBuffers();
 }
 
 void theFrame::keyboardFunc(unsigned char c, int i, int j){
-    cout << i<<"\n" <<j <<endl;
+    //cout << i<<"\n" <<j <<endl;
     if( c == 27)
         exit(0);
-    if( c == 'w'){
+    if( c == 'w' || c == 'W'){
         cam.moveCamR(cam.getR()-.5);
     }
-    if( c == 's'){
+    if( c == 's' || c == 'S'){
         cam.moveCamR(cam.getR()+.5);
     }
     if( c == ' '){
@@ -114,14 +137,14 @@ void theFrame::keyboardFunc(unsigned char c, int i, int j){
 void theFrame::mouseClickFunc(int button, int state, int x, int y){
     if(button == GLUT_LEFT_BUTTON){
         mouseX =x;mouseY = y;
-        cout <<"CLICK Mx: "<<mouseX<<" My:"<<mouseY<<endl;
+        //cout <<"CLICK Mx: "<<mouseX<<" My:"<<mouseY<<endl;
     }
 }
 void theFrame::mouseMotionFunc(int x, int y){
     float factor = 0.1;
     int delX = x - mouseX, delY = y - mouseY;   //delY changes theta and delX changes phi
     mouseX = x;mouseY = y;
-    cout <<"DRAGED Mx: "<<mouseX<<" My:"<<mouseY<<endl;
+    //cout <<"DRAGED Mx: "<<mouseX<<" My:"<<mouseY<<endl;
     int mod = glutGetModifiers();
     if(mod== GLUT_ACTIVE_CTRL){
         cam.moveObjPhi(cam.getPhi()-(float)factor*delX);
