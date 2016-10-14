@@ -3,16 +3,19 @@
 #include <iostream>
 #include "theTriangle.h"
 #include <math.h>
+#include <electricField.h>
 
 using namespace std;
 
 snowMan theFrame:: s;
 
-camera theFrame:: cam(0,4,7,5,45,90);
+camera theFrame:: cam(0,0,0,5,45,90);
 
 float xB=0.1,yB=0.1;
 
-int mouseX, mouseY;
+int mouseX, mouseY, ctrKey;
+
+electricField Ex(100, M_PI, 0.01, M_PI*60/180);
 
 theFrame::theFrame(int* argc, char* argv[], char* title){
 
@@ -25,7 +28,6 @@ theFrame::theFrame(int* argc, char* argv[], char* title){
     glutDisplayFunc(theFrame::render);
     glutReshapeFunc(changeSize);
     glutKeyboardFunc(keyboardFunc);
-    glutSpecialFunc(specialKeyboardFunc);
     glutMouseFunc(mouseClickFunc);
     glutMotionFunc(mouseMotionFunc);
     glutIdleFunc(idleFunc);
@@ -84,40 +86,6 @@ void theFrame::keyboardFunc(unsigned char c, int i, int j){
         cam.moveCamR(cam.getR()+.1);
     }
 }
-void theFrame::specialKeyboardFunc(int key, int x, int y){
-    //float fraction = 0.1f;
-    int mod = glutGetModifiers();
-	switch (key) {
-		case GLUT_KEY_LEFT :
-		    if(mod != GLUT_ACTIVE_CTRL){
-                cam.moveObjPhi(cam.getPhi()+1);
-		    }else{
-		        cam.moveCamPhi(cam.getPhi()+1);
-		    }
-			break;
-		case GLUT_KEY_RIGHT :
-			if(mod != GLUT_ACTIVE_CTRL){
-                cam.moveObjPhi(cam.getPhi()-1);
-		    }else{
-                cam.moveCamPhi(cam.getPhi()-1);
-		    }
-			break;
-		case GLUT_KEY_UP :
-		    if(mod != GLUT_ACTIVE_CTRL){
-                cam.moveObjTheta(cam.getTheta()-1);
-		    }else{
-                cam.moveCamTheta(cam.getTheta()-1);
-		    }
-			break;
-		case GLUT_KEY_DOWN :
-		    if(mod != GLUT_ACTIVE_CTRL){
-                cam.moveObjTheta(cam.getTheta()+1);
-		    }else{
-                cam.moveCamTheta(cam.getTheta()+1);
-		    }
-			break;
-	}
-}
 void theFrame::mouseClickFunc(int button, int state, int x, int y){
     if(button == GLUT_LEFT_BUTTON){
         mouseX =x;mouseY = y;
@@ -129,8 +97,14 @@ void theFrame::mouseMotionFunc(int x, int y){
     int delX = x - mouseX, delY = y - mouseY;   //delY changes theta and delX changes phi
     mouseX = x;mouseY = y;
     cout <<"DRAGED Mx: "<<mouseX<<" My:"<<mouseY<<endl;
-    cam.moveCamPhi(cam.getPhi()-(float)factor*delX);
-    cam.moveCamTheta(cam.getTheta()-(float)factor*delY);
+    int mod = glutGetModifiers();
+    if(mod== GLUT_ACTIVE_CTRL){
+        cam.moveObjPhi(cam.getPhi()-(float)factor*delX);
+        cam.moveObjTheta(cam.getTheta()-(float)factor*delY);
+    }else{
+        cam.moveCamPhi(cam.getPhi()-(float)factor*delX);
+        cam.moveCamTheta(cam.getTheta()-(float)factor*delY);
+    }
 
 }
 

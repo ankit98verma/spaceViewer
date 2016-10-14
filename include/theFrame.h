@@ -15,7 +15,6 @@ private:
     static void render(void);
     static void changeSize(int w, int h);
     static void keyboardFunc(unsigned char c,int i, int j);
-    static void specialKeyboardFunc(int key, int x, int y);
     static void mouseClickFunc(int button, int state, int x, int y);
     static void mouseMotionFunc(int x, int y);
     static void idleFunc();

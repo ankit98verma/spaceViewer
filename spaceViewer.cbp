@@ -45,11 +45,13 @@
 			<Add directory="E:/Glue and glut/freeglut/lib" />
 		</Linker>
 		<Unit filename="include/camera.h" />
+		<Unit filename="include/electricField.h" />
 		<Unit filename="include/snowMan.h" />
 		<Unit filename="include/theFrame.h" />
 		<Unit filename="include/theTriangle.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/camera.cpp" />
+		<Unit filename="src/electricField.cpp" />
 		<Unit filename="src/snowMan.cpp" />
 		<Unit filename="src/theFrame.cpp" />
 		<Unit filename="src/theTriangle.cpp" />
