@@ -4,18 +4,23 @@
 #include "theTriangle.h"
 #include <math.h>
 #include <electricField.h>
+#include "stdlib.h"
 
 using namespace std;
 
 snowMan theFrame:: s;
 
-camera theFrame:: cam(0,0,0,5,45,90);
+camera theFrame:: cam(0,0,0,5,-76.5,70.5);
 
 float xB=0.1,yB=0.1;
 
-int mouseX, mouseY, ctrKey;
+bool paused = true;
 
-electricField Ex(100, M_PI, 0.01, M_PI*60/180);
+int mouseX, mouseY, ctrKey;
+float incT = 0.016, totT =0.0;
+
+electricField Ez(2, M_PI/2, 1, M_PI*0/180);
+electricField Ex(2, M_PI/2, 1, M_PI*90/180);
 
 theFrame::theFrame(int* argc, char* argv[], char* title){
 
@@ -47,31 +52,48 @@ void theFrame::render(void){
 
 
 	glBegin(GL_LINES);
-        glColor3f(1.0f, 0 ,0 );
+        /*glColor3f(1.0f, 0 ,0 ); //x axis
 
         glVertex3f(0.0, 0,0);
         glVertex3f(10.0, 0.0,0);
+        */
 
-        glColor3f(0.0f, 1.0f ,0 );
+        glColor3f(0.0f, 1.0f ,0 );  // y axis
 
         glVertex3f(0.0, 0.0,0);
         glVertex3f(0.0, 10.0,0);
 
-        glColor3f(0.0f, 0 ,1.0f );
+        /*glColor3f(0.0f, 0 ,1.0f );  // z axis
 
         glVertex3f(0.0, 0.0,0.0f);
         glVertex3f(0.0, 0.0,10.0f);
+        */
 	glEnd();
 
-	for(int i = -3; i < 3; i++)
+	/*for(int i = -3; i < 3; i++)
 		for(int j=-3; j < 3; j++) {
 			glPushMatrix();
 			glColor3f(0.01*i, 0.2*i, 0.2);
 			glTranslatef(i*5.0+xB,yB+j * 5.0,0);
 			s.draw();
 			glPopMatrix();
-		}
-
+		}*/
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glBegin(GL_LINE_STRIP);
+        for(float y = 0; y<50; y+=.01){
+            float z =(float)Ez.getValueAt(totT, y);
+            float x = (float)Ex.getValueAt(totT, y);
+            glVertex3f(x, y, z);
+        }
+    glEnd();
+    glBegin(GL_LINES);
+        glColor3f(1.0f, 1.0f ,0 );
+        glVertex3f(0,0,0);
+        glVertex3f(0,0,Ez.getValueAt(totT, 0));
+        glColor3f(0.0f, 1.0f ,1.0f );
+        glVertex3f(0,0,0);
+        glVertex3f(Ex.getValueAt(totT, 0),0,0);
+    glEnd();
 	glutSwapBuffers();
 }
 
@@ -80,10 +102,13 @@ void theFrame::keyboardFunc(unsigned char c, int i, int j){
     if( c == 27)
         exit(0);
     if( c == 'w'){
-        cam.moveCamR(cam.getR()-.1);
+        cam.moveCamR(cam.getR()-.5);
     }
     if( c == 's'){
-        cam.moveCamR(cam.getR()+.1);
+        cam.moveCamR(cam.getR()+.5);
+    }
+    if( c == ' '){
+        paused  = !paused;
     }
 }
 void theFrame::mouseClickFunc(int button, int state, int x, int y){
@@ -138,7 +163,11 @@ void theFrame::idleFunc(){
     glutPostRedisplay();
 }
 void theFrame::update(){        //update everything for animation
-    xB+=0.001;yB+=0.0001;
+    //xB+=0.001;yB+=0.0001;
+    if(!paused){
+        Sleep(incT*1000);
+        totT += incT;
+    }
 }
 
 theFrame::~theFrame(){

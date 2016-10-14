@@ -1,5 +1,7 @@
 #include "electricField.h"
 #include <math.h>
+#include "stdlib.h"
+#include "stdio.h"
 #include <iostream>
 
 using namespace std;
@@ -12,6 +14,7 @@ electricField::electricField(float Eo, float omega, float beta,float phase){
 }
 
 double electricField::getValueAt(float t, float x){
+
     return Eo * cos(omega*t - beta*x + phase);
 }
 

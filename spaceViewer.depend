@@ -16,13 +16,14 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1476446061 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\theframe.cpp
+1476449453 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\theframe.cpp
 	"theFrame.h"
 	<GL/glut.h>
 	<iostream>
 	"theTriangle.h"
 	<math.h>
 	<electricField.h>
+	"stdlib.h"
 
 1476382690 c:\users\ankit\documents\codeblocks projects\spaceviewer\include\theframe.h
 	"snowMan.h"
@@ -47,9 +48,12 @@
 	<iostream>
 	<math.h>
 
-1476445979 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\electricfield.cpp
+1476447167 source:c:\users\ankit\documents\codeblocks projects\spaceviewer\src\electricfield.cpp
 	"electricField.h"
 	<math.h>
+	"stdlib.h"
+	"stdio.h"
+	<iostream>
 
 1476445652 c:\users\ankit\documents\codeblocks projects\spaceviewer\include\electricfield.h
 
